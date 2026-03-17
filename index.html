@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SAFE-E AI Consulting</title>
+    <meta
+      name="description"
+      content="AI consulting for automation, strategy, LLM integrations, and custom workflows."
+    />
+    <style>
+      :root {
+        --bg: #07111f;
+        --bg-soft: rgba(255, 255, 255, 0.06);
+        --card: rgba(255, 255, 255, 0.08);
+        --card-border: rgba(255, 255, 255, 0.14);
+        --text: #eaf2ff;
+        --muted: #a8b7d4;
+        --primary: #7c9cff;
+        --primary-2: #6ee7f9;
+        --accent: #a78bfa;
+        --success: #86efac;
+        --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        --radius: 22px;
+        --max: 1160px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(124, 156, 255, 0.22), transparent 28%),
+          radial-gradient(circle at 85% 15%, rgba(167, 139, 250, 0.16), transparent 24%),
+          radial-gradient(circle at 70% 80%, rgba(110, 231, 249, 0.12), transparent 22%),
+          linear-gradient(180deg, #09111e 0%, #0a1424 50%, #08111d 100%);
+        line-height: 1.55;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(calc(100% - 2rem), var(--max));
+        margin: 0 auto;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(124, 156, 255, 0.12);
+        border: 1px solid rgba(124, 156, 255, 0.22);
+        color: #dce6ff;
+        font-size: 0.92rem;
+      }
+
+      .dot {
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-2), var(--primary));
+        box-shadow: 0 0 16px rgba(110, 231, 249, 0.8);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 0.95rem 1.25rem;
+        border-radius: 14px;
+        border: 1px solid transparent;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        box-shadow: 0 12px 30px rgba(124, 156, 255, 0.3);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(18px);
+        background: rgba(7, 17, 31, 0.6);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 78px;
+        gap: 1rem;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2), var(--accent));
+        box-shadow: 0 10px 24px rgba(124, 156, 255, 0.28);
+        position: relative;
+      }
+
+      .brand-mark::after {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border-radius: 10px;
+        border: 2px solid rgba(255, 255, 255, 0.78);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.25rem;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .hero {
+        padding: 5.5rem 0 4rem;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.05;
+      }
+
+      h1 {
+        font-size: clamp(2.7rem, 6vw, 5.5rem);
+        letter-spacing: -0.05em;
+        margin-top: 1rem;
+      }
+
+      .hero p {
+        color: var(--muted);
+        font-size: 1.1rem;
+        max-width: 44rem;
+        margin: 1.3rem 0 0;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1.8rem;
+      }
+
+      .hero-stats {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1.8rem;
+      }
+
+      .stat {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 1rem 1.1rem;
+        min-width: 150px;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.35rem;
+        margin-bottom: 0.2rem;
+      }
+
+      .hero-card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+        border: 1px solid var(--card-border);
+        border-radius: 28px;
+        padding: 1.3rem;
+        box-shadow: var(--shadow);
+      }
+
+      .dashboard {
+        border-radius: 22px;
+        background: rgba(5, 11, 21, 0.82);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+      }
+
+      .dashboard-top {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.9rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .window-dot {
+        width: 0.7rem;
+        height: 0.7rem;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.28);
+      }
+
+      .dashboard-body {
+        padding: 1rem;
+        display: grid;
+        gap: 1rem;
+      }
+
+      .panel {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 1rem;
+      }
+
+      .panel-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        color: var(--muted);
+        margin-bottom: 0.9rem;
+      }
+
+      .bars {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .bar {
+        height: 0.8rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.07);
+        overflow: hidden;
+      }
+
+      .bar > span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--primary-2), var(--primary), var(--accent));
+      }
+
+      .section {
+        padding: 2rem 0 4rem;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 1rem;
+        margin-bottom: 1.6rem;
+      }
+
+      .section-header p,
+      .section-copy {
+        color: var(--muted);
+        max-width: 40rem;
+      }
+
+      .grid-3,
+      .grid-2 {
+        display: grid;
+        gap: 1.2rem;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius);
+        padding: 1.4rem;
+        box-shadow: var(--shadow);
+      }
+
+      .card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.7rem;
+      }
+
+      .card p,
+      .card li,
+      .muted {
+        color: var(--muted);
+      }
+
+      .icon {
+        width: 2.8rem;
+        height: 2.8rem;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, rgba(124, 156, 255, 0.22), rgba(110, 231, 249, 0.18));
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        font-size: 1.2rem;
+      }
+
+      .list {
+        margin: 0;
+        padding-left: 1rem;
+      }
+
+      .list li + li {
+        margin-top: 0.6rem;
+      }
+
+      .process-step {
+        position: relative;
+        padding-top: 1rem;
+      }
+
+      .process-step::before {
+        content: attr(data-step);
+        position: absolute;
+        top: -0.55rem;
+        left: 1.2rem;
+        font-size: 0.82rem;
+        color: #dbe5ff;
+        background: rgba(124, 156, 255, 0.22);
+        border: 1px solid rgba(124, 156, 255, 0.3);
+        padding: 0.3rem 0.6rem;
+        border-radius: 999px;
+      }
+
+      .testimonial {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .quote {
+        font-size: 1.05rem;
+      }
+
+      .person {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+      }
+
+      .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+      }
+
+      .pricing {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pricing.featured {
+        border-color: rgba(124, 156, 255, 0.36);
+      }
+
+      .badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 0.82rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 999px;
+        background: rgba(124, 156, 255, 0.16);
+        border: 1px solid rgba(124, 156, 255, 0.25);
+      }
+
+      .price {
+        display: flex;
+        align-items: end;
+        gap: 0.35rem;
+        margin: 1rem 0;
+      }
+
+      .price strong {
+        font-size: 2.25rem;
+        line-height: 1;
+      }
+
+      .cta {
+        margin-top: 2rem;
+        padding: 2rem;
+        border-radius: 30px;
+        background: linear-gradient(135deg, rgba(124, 156, 255, 0.18), rgba(167, 139, 250, 0.12));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: var(--shadow);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .footer {
+        padding: 2rem 0 3rem;
+        color: var(--muted);
+      }
+
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 1.3rem;
+      }
+
+      @media (max-width: 960px) {
+        .hero-grid,
+        .grid-3,
+        .grid-2,
+        .cta {
+          grid-template-columns: 1fr;
+          display: grid;
+        }
+
+        .section-header,
+        .nav {
+          align-items: start;
+        }
+
+        .nav {
+          flex-direction: column;
+          padding: 1rem 0;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .hero {
+          padding-top: 4rem;
+        }
+
+        h1 {
+          font-size: 2.6rem;
+        }
+
+        .nav-links {
+          flex-wrap: wrap;
+          gap: 0.85rem;
+        }
+
+        .cta,
+        .card,
+        .hero-card {
+          padding: 1.15rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="#top">
+          <span class="brand-mark"></span>
+          <span>SAFE-E AI Consulting</span>
+        </a>
+
+        <nav class="nav-links">
+          <a href="#services">Services</a>
+          <a href="#process">Process</a>
+          <a href="#case-studies">Case Studies</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="pill"><span class="dot"></span> Trusted AI partner for modern teams</span>
+            <h1>Turn AI ideas into real business systems.</h1>
+            <p>
+              We help startups and established companies design, ship, and scale AI products — from internal copilots
+              and workflow automation to LLM integrations and AI strategy.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#contact">Book a discovery call</a>
+              <a class="btn btn-secondary" href="#case-studies">See case studies</a>
+            </div>
+
+            <div class="hero-stats">
+              <div class="stat">
+                <strong>35+</strong>
+                <span class="muted">AI projects delivered</span>
+              </div>
+              <div class="stat">
+                <strong>12 weeks</strong>
+                <span class="muted">Average MVP timeline</span>
+              </div>
+              <div class="stat">
+                <strong>3.4x</strong>
+                <span class="muted">Typical automation ROI</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <div class="dashboard">
+              <div class="dashboard-top">
+                <span class="window-dot"></span>
+                <span class="window-dot"></span>
+                <span class="window-dot"></span>
+              </div>
+              <div class="dashboard-body">
+                <div class="panel">
+                  <div class="panel-row">
+                    <strong>AI Opportunity Map</strong>
+                    <span>Q2 2026</span>
+                  </div>
+                  <div class="bars">
+                    <div class="bar"><span style="width: 88%"></span></div>
+                    <div class="bar"><span style="width: 72%"></span></div>
+                    <div class="bar"><span style="width: 64%"></span></div>
+                    <div class="bar"><span style="width: 91%"></span></div>
+                  </div>
+                </div>
+
+                <div class="panel">
+                  <div class="panel-row">
+                    <strong>Automations deployed</strong>
+                    <span class="muted">12 active</span>
+                  </div>
+                  <div class="grid-2">
+                    <div>
+                      <h3>Lead qualification</h3>
+                      <p class="muted">Reduce manual triage and route high-intent prospects instantly.</p>
+                    </div>
+                    <div>
+                      <h3>Support copilot</h3>
+                      <p class="muted">Draft replies, search knowledge, and cut ticket handling time.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel">
+                  <div class="panel-row">
+                    <strong>Current outcomes</strong>
+                    <span class="muted">Last 90 days</span>
+                  </div>
+                  <p class="muted">+41% team throughput · -26% support backlog · 99.2% uptime across production workflows</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="services">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <span class="pill">Services</span>
+              <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-top: 0.8rem;">Practical AI consulting, end to end.</h2>
+            </div>
+            <p>
+              Pick a focused engagement or combine multiple tracks into a roadmap tailored to your team.
+            </p>
+          </div>
+
+          <div class="grid-3">
+            <article class="card">
+              <div class="icon">✦</div>
+              <h3>AI Strategy</h3>
+              <p>
+                Prioritize use cases, assess feasibility, and build a realistic roadmap that aligns with your revenue,
+                operations, and data stack.
+              </p>
+            </article>
+
+            <article class="card">
+              <div class="icon">⚙</div>
+              <h3>Workflow Automation</h3>
+              <p>
+                Automate repetitive tasks across sales, ops, support, and internal tools with AI-powered workflows and
+                human-in-the-loop controls.
+              </p>
+            </article>
+
+            <article class="card">
+              <div class="icon">◎</div>
+              <h3>Custom AI Products</h3>
+              <p>
+                Design and ship copilots, assistants, search experiences, and internal platforms with secure APIs and
+                production-ready UX.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="process">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <span class="pill">Process</span>
+              <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-top: 0.8rem;">A simple path from idea to deployment.</h2>
+            </div>
+            <p>Designed for teams that want speed, clarity, and measurable business outcomes.</p>
+          </div>
+
+          <div class="grid-3">
+            <article class="card process-step" data-step="01">
+              <h3>Discovery</h3>
+              <p>We audit your workflows, tools, data, and constraints to identify where AI creates the most leverage.</p>
+            </article>
+            <article class="card process-step" data-step="02">
+              <h3>Prototype</h3>
+              <p>We validate the concept quickly with a lightweight prototype, technical plan, and success criteria.</p>
+            </article>
+            <article class="card process-step" data-step="03">
+              <h3>Deploy & Optimize</h3>
+              <p>We launch securely, monitor performance, improve quality, and train your team for adoption.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="case-studies">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <span class="pill">Case Studies</span>
+              <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-top: 0.8rem;">Results that leadership teams care about.</h2>
+            </div>
+            <p>Swap these examples with your own wins, logos, and before-and-after metrics.</p>
+          </div>
+
+          <div class="grid-2">
+            <article class="card">
+              <h3>SaaS support copilot</h3>
+              <p class="section-copy">Built a retrieval-powered assistant for a B2B SaaS team handling 12,000+ monthly tickets.</p>
+              <ul class="list">
+                <li>Cut average response time by 37%</li>
+                <li>Improved first-response quality across Tier 1 tickets</li>
+                <li>Integrated with internal docs and CRM context</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>Sales pipeline automation</h3>
+              <p class="section-copy">Designed AI workflows to qualify leads, enrich records, and generate tailored follow-up drafts.</p>
+              <ul class="list">
+                <li>Saved 18+ hours per rep per month</li>
+                <li>Raised lead routing accuracy</li>
+                <li>Reduced manual CRM updates significantly</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="grid-2">
+            <article class="card testimonial">
+              <span class="pill">Client feedback</span>
+              <p class="quote">
+                “SAFE-E helped us move from vague AI ideas to a working internal assistant in less than eight weeks. The
+                engagement paid for itself faster than expected.”
+              </p>
+              <div class="person">
+                <div class="avatar">AM</div>
+                <div>
+                  <strong>Alex Morgan</strong>
+                  <div class="muted">COO, Northline Systems</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <span class="pill">Why clients choose us</span>
+              <h3 style="margin-top: 1rem;">Business-first, not just model-first.</h3>
+              <ul class="list">
+                <li>Clear scoping and measurable outcomes</li>
+                <li>Modern UX with reliable production architecture</li>
+                <li>Security, governance, and human review where needed</li>
+                <li>Hands-on enablement for your internal team</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="pricing">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <span class="pill">Pricing</span>
+              <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-top: 0.8rem;">Flexible ways to work together.</h2>
+            </div>
+            <p>These are placeholder packages. Adjust scope, deliverables, and pricing to match your offers.</p>
+          </div>
+
+          <div class="grid-3">
+            <article class="card pricing">
+              <h3>Strategy Sprint</h3>
+              <div class="price"><strong>$2.5k</strong><span class="muted">one-time</span></div>
+              <p>Ideal for identifying the highest-ROI AI opportunities before building anything.</p>
+              <ul class="list">
+                <li>Stakeholder workshop</li>
+                <li>Opportunity map</li>
+                <li>Technical recommendations</li>
+              </ul>
+            </article>
+
+            <article class="card pricing featured">
+              <span class="badge">Most popular</span>
+              <h3>Build & Launch</h3>
+              <div class="price"><strong>$8k+</strong><span class="muted">project-based</span></div>
+              <p>For teams ready to ship a pilot, internal tool, or customer-facing AI feature.</p>
+              <ul class="list">
+                <li>Prototype to production</li>
+                <li>Integrations and testing</li>
+                <li>Launch support</li>
+              </ul>
+            </article>
+
+            <article class="card pricing">
+              <h3>Embedded Advisory</h3>
+              <div class="price"><strong>$3k/mo</strong><span class="muted">retainer</span></div>
+              <p>Ongoing guidance for teams building multiple AI initiatives across the business.</p>
+              <ul class="list">
+                <li>Weekly strategy calls</li>
+                <li>Architecture review</li>
+                <li>Vendor and tooling guidance</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="cta" id="contact">
+            <div>
+              <span class="pill">Let’s talk</span>
+              <h2 style="font-size: clamp(1.8rem, 4vw, 2.8rem); margin-top: 0.8rem;">Ready to build your AI advantage?</h2>
+              <p class="section-copy">
+                Replace the text below with your email, Calendly link, GitHub Pages form endpoint, or preferred contact method.
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+              <a class="btn btn-primary" href="mailto:hello@yourdomain.com">hello@yourdomain.com</a>
+              <a class="btn btn-secondary" href="#top">Back to top</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div>© 2026 SAFE-E AI Consulting. All rights reserved.</div>
+        <div>Built as a lightweight single-file template for GitHub Pages.</div>
+      </div>
+    </footer>
+  </body>
+</html>
